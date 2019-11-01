@@ -12,7 +12,7 @@ void print_cache(vector<int> q){
 int main(int argc, char const *argv[]) {
   vector<int> requests;
   int cycle_count = 0;
-  map<int, int>  freq;
+  map<int, int>  access_times;
   int n, t;
   int faults = 0, cache_hits = 0;
   cout << "Enter the number if requests: " ;
@@ -32,12 +32,12 @@ int main(int argc, char const *argv[]) {
   for (int i = 0; i < max_frames; ++i){
     cache.push_back(requests[i]);
     faults++;
-    freq[requests[i]] = 1;
-    // cycle_count++;
+    access_times[requests[i]] = cycle_count;
+    cycle_count++;
     print_cache(cache);
   }
 
-  int min_freq = freq[requests[0]];
+  int min_access_time = access_times[requests[0]];
   int lrp = requests[0];
 
   for (int i = max_frames; i < n; ++i) {
@@ -46,9 +46,9 @@ int main(int argc, char const *argv[]) {
       faults++;
       cerr << "fault!" << endl;
 
-      for(auto j = freq.begin(); j != freq.end(); ++j){
-        if (j -> second < min_freq){
-          min_freq = j -> second;
+      for(auto j = access_times.begin(); j != access_times.end(); ++j){
+        if (j -> second < min_access_time){
+          min_access_time = j -> second;
           lrp = j -> first;
           cerr << "lrp: " << lrp << endl;
         }
@@ -57,13 +57,13 @@ int main(int argc, char const *argv[]) {
       vector<int>::iterator it = find(cache.begin(), cache.end(), lrp);
       cache.erase(it);
       cache.insert(it, r);
-      freq.erase(lrp);
+      access_times.erase(lrp);
     }
     else{
       cache_hits++;
     }
-    freq[r]++;
-    min_freq = freq[r];
+    access_times[r] = cycle_count;
+    min_access_time = access_times[r];
     lrp = r;
     print_cache(cache);
     cycle_count++;

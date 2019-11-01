@@ -1,0 +1,69 @@
+\documentclass[10pt,a4paper,titlepage]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{minted}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\nonstopmode
+
+
+\begin{document}
+{\fontfamily{cmr}\selectfont
+\title{ \normalsize \textsc{}
+\\ [2.0cm]
+\HRule{0.5pt} \\
+\LARGE \textbf{\uppercase{FILE ORGANIZATION}
+\HRule{2pt} \\ [0.5cm]
+\normalsize \today \vspace*{5\baselineskip}}
+}
+
+\date{}
+
+\author{
+	Rwithik Manoj \\
+	College of Engineering, Trivandrum \\
+	Department of Computer Science and Engineering }
+
+\maketitle
+\newpage
+
+\sectionfont{\scshape}
+
+\section*{The Base Program}
+
+\inputminted{c++}{../Programs/file_organization/file_organization.cpp}
+
+\section*{Output}
+
+\includegraphics[width=\linewidth]{../Images/file_organization/1.png}\newline
+\includegraphics[width=\linewidth]{../Images/file_organization/2.png}\newline
+\includegraphics[width=\linewidth]{../Images/file_organization/3.png}\newline
+\includegraphics[width=\linewidth]{../Images/file_organization/4.png}\newline
+\includegraphics[width=\linewidth]{../Images/file_organization/5.png}\newline
+\includegraphics[width=\linewidth]{../Images/file_organization/6.png}\newline
+\includegraphics[width=\linewidth]{../Images/file_organization/7.png}\newline
+\includegraphics[width=\linewidth]{../Images/file_organization/8.png}\newline
+
+\section*{Header Files}
+
+\subsection*{Single Level Directory Structure}
+
+\inputminted{c++}{../Programs/file_organization/single-level.h}
+
+
+\subsection*{Two Level Directory Structure}
+
+\inputminted{c++}{../Programs/file_organization/two-level.h}
+
+
+\subsection*{Hierarchial Directory Structure}
+
+\inputminted{c++}{../Programs/file_organization/hierarchial.h}
+
+}
+\end{document}
