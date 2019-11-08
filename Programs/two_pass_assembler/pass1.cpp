@@ -35,7 +35,8 @@ int main(int argc, char const *argv[]) {
 
   string line;
 
-  bool duplicate = false, invalid_opcode = false;
+  bool duplicate = false;
+  bool invalid_opcode = false;
 
   getline(file, line);
   vector<string> words = split(line);
@@ -43,20 +44,22 @@ int main(int argc, char const *argv[]) {
   if (words[0].compare("START") == 0){
     locctr = stoi(words[1]);
     starting_address = locctr;
-    cout << "Start" << endl;
+    // cout << "Start" << endl;
     ifile << locctr << "\t" << line << endl;
+    locctr -= 3;
     getline(file, line);
     words = split(line);
   }
 
   while (words[1].compare("END") != 0){
+    cout << "Current line: " << line << endl;
     if (words[0].compare("-") != 0) {
       if (symtab.find(words[0]) == symtab.end()){
-        symtab.insert(pair<string, string>(words[0], to_string(locctr)));
+        symtab.insert(pair<string, string>(words[0], to_string(locctr+3)));
       }
       else {
         duplicate = true;
-        cout << "Duplicate symbol " << words[0] << endl;
+        // cout << "Duplicate symbol " << words[0] << endl;
         ifile << "Duplicate symbol " << words[0] << endl;
       }
     }
@@ -75,21 +78,32 @@ int main(int argc, char const *argv[]) {
     }
     else {
       invalid_opcode = true;
-      cout << "Invalid opcode " << words[1] << endl;
+      // cout << "Invalid opcode " << words[1] << endl;
       ifile << "Invalid opcode " << words[1] << endl;
     }
 
+    // cout << "dup " << duplicate << ": " << "invop " << invalid_opcode << endl;
+
     if (!invalid_opcode && !duplicate) {
-      invalid_opcode = false;
-      duplicate = false;
       ifile << locctr << "\t" << line << endl;
     }
+    
+    // cout << locctr << "\t" << line << endl;
     getline(file, line);
     words = split(line);
+    invalid_opcode = false;
+    duplicate = false;
   }
 
+  locctr += 3;
   ifile << locctr << "\t" << line << endl;
-  cout << "Program length: " << locctr - starting_address << endl;
+  cout << "Program length: " << locctr - starting_address << endl << endl;
+
+  cout << "SYMTAB" << endl << endl;
+
+  for (auto i: symtab) {
+    cout << i.first << ": " << i.second << endl;
+  }
 
   return 0;
 }
