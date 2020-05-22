@@ -29,6 +29,7 @@ int main(int argc, char const *argv[]) {
 
   fstream file("input.txt", ios::in);
   fstream ifile("if.txt", ios::out);
+  fstream symtabf("symtab.txt", ios::out);
   map<string, string> symtab;
   int locctr = 0;
   int starting_address = 0;
@@ -59,8 +60,8 @@ int main(int argc, char const *argv[]) {
       }
       else {
         duplicate = true;
-        // cout << "Duplicate symbol " << words[0] << endl;
-        ifile << "Duplicate symbol " << words[0] << endl;
+        cout << "Duplicate symbol " << words[0] << endl;
+        // ifile << "Duplicate symbol " << words[0] << endl;
       }
     }
 
@@ -73,21 +74,21 @@ int main(int argc, char const *argv[]) {
     else if (words[1].compare("RESW") == 0){
       locctr += 3 * stoi(words[2]);
     }
-    else if (words[1].compare("WORD") == 0){
-      locctr += stoi("RESB");
+    else if (words[1].compare("RESB") == 0){
+      locctr += stoi(words[2]);
     }
     else {
       invalid_opcode = true;
-      // cout << "Invalid opcode " << words[1] << endl;
-      ifile << "Invalid opcode " << words[1] << endl;
+      cout << "Invalid opcode " << words[1] << endl;
+      // ifile << "Invalid opcode " << words[1] << endl;
     }
 
     // cout << "dup " << duplicate << ": " << "invop " << invalid_opcode << endl;
 
     if (!invalid_opcode && !duplicate) {
-      ifile << locctr << "\t" << line << endl;
+      ifile << locctr << " " << line << endl;
     }
-    
+
     // cout << locctr << "\t" << line << endl;
     getline(file, line);
     words = split(line);
@@ -103,6 +104,7 @@ int main(int argc, char const *argv[]) {
 
   for (auto i: symtab) {
     cout << i.first << ": " << i.second << endl;
+    symtabf << i.first << " " << i.second << endl;
   }
 
   return 0;
